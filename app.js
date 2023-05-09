@@ -31,7 +31,47 @@ startBtn.addEventListener("click", () => {
   startInterval();
 });
 
-
 function timer() {
-    console.log("ok");
+  if (hour.value == 0 && min.value == 0 && sec.value == 0) {
+    stopInterval();
+  }
+
+  if (sec.value != 0) {
+    sec.value = `${sec.value <= 10 ? "0" : ""}${sec.value - 1}`;
+  }
+
+  if (min.value != 0 && sec.value == 0) {
+    sec.value = 59;
+    min.value = `${min.value <= 10 ? "0" : ""}${min.value - 1}`;
+  }
+
+  if (hour.value != 0 && min.value == 0 && sec.value == 0) {
+    min.value = 59;
+    sec.value = 59;
+    hour.value = `${hour.value <= 10 ? "0" : ""}${hour.value - 1}`;
+  }
 }
+
+function stopInterval(state) {
+  state === "pause" ? (startBtn.innerHTML = "Start") : "continue";
+
+  startBtn.style.display = "block";
+  stopBtn.style.display = "none";
+
+  clearInterval(countTimer);
+}
+
+resetBtn.addEventListener("click", () => {
+  clearInterval(countTimer);
+
+  startBtn.style.display = "block";
+  stopBtn.style.display = "none";
+
+  hour.value = 0;
+  min.value = 0;
+  sec.value = 0;
+});
+
+stopBtn.addEventListener("click", () => {
+  stopInterval("pause");
+});
